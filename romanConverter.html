@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <title>Document</title>
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div class="masthead">
+<div class="container">
+  <div class="intro-text">
+    <span class="title">Arabic to <span class="fontChange">ROMAN</span> number Converter</span>
+    </div>
+
+        <form class="form-inline d-flex">
+            <input autocomplete="off" type="text" onfocus="this.value=''" id="arabic" placeholder="Enter your number here!" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0">
+          </form>
+            <div id="e"></div>
+          <button id="submit" class="btn btn-primary mx-auto">Submit</button>
+       <div id="roman" class="intro-text"></div>
+       <footer class="bg-black small text-center text-white-50">
+         <div class="container">
+           Copyright &copy; Joanna Sikora <span id="year"><span>
+         </div>
+       </footer>
+
+</div>
+</div>
+
+
+  <script>
+
+//Roman numbers
+const button = document.getElementById('submit');
+const input = document.getElementById('arabic');
+const roman = document.getElementById('roman');
+const error = document.querySelector('#e')
+let arabicNumber = '';
+
+
+input.onkeypress = function(e){
+  if (e.keyCode == 13){
+    e.preventDefault()
+    arabicNumber = input.value;
+    romanNumbersConverter();
+input.value = ''
+  }
+  }
+
+button.onclick = function(){
+  arabicNumber = input.value;
+  romanNumbersConverter();
+  input.value = ''
+}
+
+function romanNumbersConverter(){
+
+  if(isNaN(arabicNumber)){
+
+  error.innerHTML = 'I asked for a number, not gibberish!';
+  error.className = ('error');
+
+} else if(input.value == ''){
+  error.innerHTML ='Please enter the number first!';
+  error.className = ('error');
+} else if(arabicNumber<1 || arabicNumber> 10000){
+  error.innerHTML ='Only numbers 1 -10000, sorry';
+  error.className = ('error');
+}
+
+ else {
+    error.innerHTML = ''
+    error.className = ('error2')
+  arabicChanger();
+  }}
+
+//arabic to roman logic
+function arabicChanger(){
+
+  let romanNumber="";
+
+//1-10 000
+  const romanArray = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
+                    "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC", "C",
+                    "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM", "M",
+                     "M", "MM", "MMM", "MMMM", "MMMMM", "MMMMMM", "MMMMMMM", "MMMMMMMM","MMMMMMMMM",
+                    "MMMMMMMMMM", "MMMMMMMMMM" ]
+
+  let l = arabicNumber.length; //(1,2,3,4,5)
+
+//loop through the number
+for(let i = 0; i < l; i++ ){
+
+  //get an actual number from the position
+  let splittedNumber = arabicNumber.toString().split('').reverse();
+  let number = parseInt(splittedNumber[i]);//actual number as a number
+
+  if(number == 0){
+  continue;
+  }
+
+romanNumber =  (romanArray[(number + (i*10)) -1]) + romanNumber;
+}
+  //output
+  roman.innerHTML = 'In Roman days '  + arabicNumber + ' would have been ' + '<span class="fontChange">' + romanNumber + '</span>';
+}
+
+//footer
+
+let date = new Date().getFullYear();
+
+document.getElementById('year').innerHTML = date;
+
+
+
+  </script>
+</body>
+</html>
